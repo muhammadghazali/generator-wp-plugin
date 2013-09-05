@@ -1,7 +1,7 @@
 {
   "name": "generator-wp-plugin",
   "version": "0.1.0",
-  "description": "A generator for Yeoman",
+  "description": "Yeoman generator for Wordpress plugin",
   "keywords": [
     "yeoman-generator"
   ],
