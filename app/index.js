@@ -8,7 +8,7 @@ var WpPluginGenerator = module.exports = function WpPluginGenerator(args, option
   yeoman.generators.Base.apply(this, arguments);
 
   this.on('end', function () {
-    this.installDependencies({ skipInstall: options['skip-install'] });
+    console.log('Finished!');
   });
 
   this.pkg = JSON.parse(this.readFileAsString(path.join(__dirname, '../package.json')));
@@ -22,29 +22,54 @@ WpPluginGenerator.prototype.askFor = function askFor() {
   // have Yeoman greet the user.
   console.log(this.yeoman);
 
-  var prompts = [{
-    type: 'confirm',
-    name: 'someOption',
-    message: 'Would you like to enable this option?',
-    default: true
-  }];
+  var prompts = [
+  {
+    name: 'pluginName',
+    message: 'Plugin name?'
+  },
+  {
+    name: 'pluginURI',
+    message: 'Plugin URI?'
+  },
+  {
+    name: 'pluginDescription',
+    message: 'Plugin Description?'
+  },
+  {
+    name: 'pluginVersion',
+    message: 'Plugin Version?'
+  },
+  {
+    name: 'pluginAuthor',
+    message: 'Plugin Author?'
+  },
+  {
+    name: 'pluginAuthorURI',
+    message: 'Plugin Author URI?'
+  },
+  {
+    name: 'pluginLicense',
+    message: 'Plugin Author License?'
+  },
+  ];
 
   this.prompt(prompts, function (props) {
-    this.someOption = props.someOption;
+    this.pluginName = props.pluginName;
+    this.pluginURI = props.pluginURI;
+    this.pluginDescription = props.pluginDescription;
+    this.pluginVersion = props.pluginVersion;
+    this.pluginAuthor = props.pluginAuthor;
+    this.pluginAuthorURI = props.pluginAuthorURI;
+    this.pluginLicense = props.pluginLicense;
 
     cb();
   }.bind(this));
 };
 
 WpPluginGenerator.prototype.app = function app() {
-  this.mkdir('app');
-  this.mkdir('app/templates');
-
-  this.copy('_package.json', 'package.json');
-  this.copy('_bower.json', 'bower.json');
+  this.template('_main.php', this.pluginName + '.php');
 };
 
 WpPluginGenerator.prototype.projectfiles = function projectfiles() {
   this.copy('editorconfig', '.editorconfig');
-  this.copy('jshintrc', '.jshintrc');
 };
